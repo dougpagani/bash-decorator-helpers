@@ -110,6 +110,14 @@ These are especially nice because with normal alias-styled-wraps, you can't both
 
 ### Meta decorator helpers:
 
+Etc:
+- @@add -- helper script for quickly adding
+    - user can just `^A @add`-prepend 
+    - jumps into `$EDITOR`
+    - explodes the cmdline, 1-newline-per-arg
+    - injects a header-hint for formatting decspecs (@@_ for some posarg, @@* for anything, @@-- for end-to-matchspec & beginning of dec-arg(s)
+    - appends as last line the `@@--` dec-arg separator
+
 Print Control:
 - @@quiet -- doesn't print decoration-advisories
 - @@verbose -- reverses a previous @@quiet (this is the default)
