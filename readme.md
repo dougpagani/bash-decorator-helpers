@@ -17,6 +17,8 @@ The main purpose of this is to obviate/replace the rather brittle & annoying nee
 - safety guards for pre-conditions of dangerous or annoying invocations
 - opt/arg defaults (eg default to human readable, unless something else is specified)
 - self-notes on certain tricky behavior of certain args
+- be able to be "command-compliant", with things like time (built-in), xargs, which break on functions & aliases since they run in a dedicated process space
+    - wrapping with `@@wrap` will mean it will actually get injected post-modifications, instead of breaking on the alias in-situ, on the repl
 
 ## Examples:
 
@@ -41,6 +43,7 @@ _log-git-usage() { echo "git $*" > /tmp/git-audit.log; }
     @@post 'gh repo create' \
     @@post 'git remote set-head origin trunk' \
     @@post 'git push -u origin $(git rev-parse --abbrev-ref HEAD)' \
+    @@wrap time
     @@end # not necessary, but can be syntactically-convenient so you don't have the trailing-\ problem when modifying code.
 
 # We can also just declare it as such, redundantly, allowing for postpend-comments instead of needing to EOL-escape with `\':
