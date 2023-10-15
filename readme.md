@@ -233,13 +233,21 @@ with-decorations() {
     parse-post DS
     parse-guard DS
     maybe-set-verbose DS
+    wrappers=( "$(parse-wrappers DS)" )
 
     argv=( "$( transform-argv DS "${argv[@]}" )" )
 
     # Execution
     decs-do-pre
     decs-do-guard &&
-        $subject "${argv[@]}"
+        "${wrappers[@]}" \
+            $subject "${argv[@]}"
+        # If no wrappers, the subject will 'execute itself' due to how shell expands
+        # 
+        # To validate that wrappers are "execution-compliant", we could do instead:
+        # "${wrappers[@]}" $spied_subject "${argv[@]}"
+        # ... that way, we could emit an advisory of "WARNING: wrappers did not execute <subject>"
+
         ec_subject=$?
     
     # Conditional posts:
