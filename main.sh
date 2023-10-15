@@ -7,7 +7,20 @@ NYI -- go for simplest, case-matching implementation at first-notice
 # Top level
 ###########
 
+: example decoration <<BASH
+_validate-in-repo() { test -d .git || { cd .. &>/dev/null && _validate-in-repo; }; }
+@@guard git _validate-in-repo 
+@@post git init 'echo "Repo initialized: \$PWD"'
+@@post git init _git-init-customizations
+BASH
+
 # NOTE: Could maybe just define these dynamically by batch, in a simple loop-eval. I don't think their implementations will actually vary; the hard part is in the execution.
+
+@@guard() {
+    TODO
+    stage=@@guard
+    append-decoration $cmdname $stage $decaction
+}
 
 @@pre() {
     TODO
